@@ -4,9 +4,11 @@ workflows:
       subclass: WDL
       primaryDescriptorPath: MUNI-PV269/gap_counter.wdl
       authors:
-         - BioGiuvanni
+         - name: BioGiuvanni
+      topic: Counting of Ns.
    -  name: gap_counter_parallel
       subclass: WDL
       primaryDescriptorPath: MUNI-PV269/gap_counter_parallel.wdl
       authors:
-         - BioGiuvanni
+         - name: BioGiuvanni
+      topic: Parallel counting of Ns.
