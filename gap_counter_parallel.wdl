@@ -33,7 +33,9 @@ task split_assembly {
     }
     runtime {
         docker: "quay.io/biocontainers/seqkit:2.10.0--h9ee0642_0"
-        preemptible: 2
+        preemptible: 3
+        memory: "8 GB"
+        cpu: 6
     }
 }
 task count_gaps {
@@ -63,5 +65,6 @@ task summa_gaps {
     }
     runtime {
         docker: "ubuntu:20.04"
+        preemptible: 2
     }
 }
