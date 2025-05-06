@@ -16,14 +16,14 @@ task count_gaps {
         File assembly
     }
     command {
-    gzip -cd "~{assembly}" | grep -v "^>" | tr -d '\n' | grep -o -i 'n' | wc -l > gaps.txt
+    gzip -cd "~{assembly}" | grep -v "^>" | grep -o -i 'N' | wc -l
     }
     output {
-        Int total_gaps = read_int("gaps.txt")
+        Int total_gaps = read_int(stdout())
     }
     runtime {
-        docker: "debian:bullseye"
-        preemptible: 2
+        docker: "ubuntu:22.04"
+        preemptible: 3
         memory: "1 GB"
         cpu: 1
     }
