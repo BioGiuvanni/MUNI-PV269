@@ -1,12 +1,12 @@
 version: 1.2
 workflows:
-  - name: gap_counter
-    subclass: WDL
-    primaryDescriptorPath: /MUNI-PV269/gap_counter.wdl
-    authors:
-      - BioGiuvanni
-  - name: gap_counter_parallel
-    subclass: WDL
-    primaryDescriptorPath: /MUNI-PV269/gap_counter_parallel.wdl
-    authors:
-      - BioGiuvanni
+   -  name: gap_counter
+      subclass: WDL
+      primaryDescriptorPath: MUNI-PV269/gap_counter.wdl
+      authors:
+         - BioGiuvanni
+   -  name: gap_counter_parallel
+      subclass: WDL
+      primaryDescriptorPath: MUNI-PV269/gap_counter_parallel.wdl
+      authors:
+         - BioGiuvanni
