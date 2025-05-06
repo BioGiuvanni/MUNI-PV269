@@ -1,6 +1,6 @@
 version 1.0
 
-workflow gap_count {
+workflow gap_counter {
     input {
         File assembly_file
     }
