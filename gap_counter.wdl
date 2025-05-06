@@ -24,5 +24,7 @@ task count_gaps {
     runtime {
         docker: "debian:bullseye"
         preemptible: 2
+        memory: "1 GB"
+        cpu: 1
     }
 }
