@@ -17,9 +17,9 @@ task count_gaps {
     }
     command {
         if [[ "~{assembly}" == *.gz ]]; then
-            gzip -cd "~{assembly}" | grep -v "^>" | tr -d -c 'Nn' | grep -o -i 'N' | wc -l
+            gzip -cd "~{assembly}" | grep -v "^>" | tr -d '\n' | grep -o -i 'N' | wc -l
         else
-            gzip -cd "~{assembly}" | grep -v "^>" | tr -d -c 'Nn' | grep -o -i 'N' | wc -l
+            cat "~{assembly}" | grep -v "^>" | tr -d '\n' | grep -o -i 'N' | wc -l
         fi
     }
     output {
