@@ -16,7 +16,7 @@ task count_gaps {
         File assembly
     }
     command {
-    gzip -cd "~{assembly}" | grep -v "^>" | grep -o -i 'N' | wc -l
+        gzip -cd "~{assembly}" | grep -v "^>" | grep -o -i 'N' | wc -l
     }
     output {
         Int total_gaps = read_int(stdout())
