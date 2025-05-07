@@ -1,6 +1,6 @@
 version 1.0
 
-workflow gap_counter_parallel {
+workflow gap_count {
     input {
         File assembly_file
     }
@@ -25,6 +25,7 @@ task split_assembly {
         File input_assembly
     }
     command <<<
+        mkdir sequences_folder
         seqkit split -i -O sequences_folder "~{input_assembly}"
         find sequences_folder -type f > file_list.txt
     >>>
@@ -33,9 +34,7 @@ task split_assembly {
     }
     runtime {
         docker: "quay.io/biocontainers/seqkit:2.10.0--h9ee0642_0"
-        preemptible: 3
-        memory: "8 GB"
-        cpu: 6
+        preemptible: 2
     }
 }
 task count_gaps {
@@ -43,10 +42,14 @@ task count_gaps {
         File sequence
     }
     command <<<
-        gzip -cd "~{sequence}" | grep -v "^>" | tr -d '\n' | grep -o -i 'n' | wc -l > gaps.txt
+        if [[ "~{sequence}" == *.gz ]]; then
+            gzip -cd "~{sequence}" | grep -v "^>" | tr -d -c 'Nn' | grep -o -i 'N' | wc -l
+        else
+            cat "~{sequence}" | grep -v "^>" | tr -d -c 'Nn' | grep -o -i 'N' | wc -l
+        fi
     >>>
     output {
-        Int total_gaps = read_int("gaps.txt")
+        Int total_gaps = read_int(stdout())
     }
     runtime {
         docker: "debian:bullseye"
@@ -65,6 +68,5 @@ task summa_gaps {
     }
     runtime {
         docker: "ubuntu:20.04"
-        preemptible: 2
     }
 }
