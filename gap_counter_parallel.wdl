@@ -27,14 +27,14 @@ task split_assembly {
     command <<<
         mkdir sequences_folder
         seqkit split -i -O sequences_folder "~{input_assembly}"
-        find sequences_folder -type f > file_list.txt
     >>>
     output {
-        Array[File] sequences = read_lines("file_list.txt")
+        Array[File] sequences = glob("sequences_folder/*")
     }
     runtime {
         docker: "quay.io/biocontainers/seqkit:2.10.0--h9ee0642_0"
-        preemptible: 2
+        memory: "8 GB"
+        preemptible: 3
     }
 }
 task count_gaps {
@@ -52,7 +52,7 @@ task count_gaps {
         Int total_gaps = read_int(stdout())
     }
     runtime {
-        docker: "debian:bullseye"
+        docker: "ubuntu:22.04"
         preemptible: 2
     }
 }
@@ -61,12 +61,13 @@ task summa_gaps {
         Array[Int] gap_counts
     }
     command <<<
-        printf '~{sep=" " gap_counts}' | awk '{tot=0; for(i=1;i<=NF;i++) tot+=$i; print tot}'
+        echo '~{sep=" " gap_counts}' | awk '{tot=0; for(i=1;i<=NF;i++) tot+=$i; print tot}'
     >>>
     output {
         Int summa_hiatuum = read_int(stdout())
     }
     runtime {
-        docker: "ubuntu:20.04"
+        docker: "ubuntu:22.04"
+        preemptible: 2
     }
 }
