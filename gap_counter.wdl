@@ -16,10 +16,10 @@ task count_gaps {
         File assembly
     }
     command {
-        if file ${assembly} | grep -q 'gzip'; then
-            zcat ${assembly} | grep -v "^>" | tr -d '\n' | grep -o -i 'n' | wc -l
+        if [[ "~{assembly}" == *.gz ]]; then
+            gzip -cd "~{assembly}" | grep -v "^>" | tr -d '\n' | grep -o -i 'n' | wc -l
         else
-            cat ${assembly} | grep -v "^>" | tr -d '\n' | grep -o -i 'n' | wc -l
+            cat "~{assembly}" | grep -v "^>" | tr -d '\n' | grep -o -i 'n' | wc -l
         fi
     }
     output {
